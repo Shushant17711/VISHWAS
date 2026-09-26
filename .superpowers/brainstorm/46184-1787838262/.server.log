@@ -1,0 +1,3 @@
+{"type":"server-started","port":51210,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:51210","screen_dir":"/home/shushant/Projects/VISHWAS/.superpowers/brainstorm/46184-1787838262"}
+{"type":"screen-added","file":"/home/shushant/Projects/VISHWAS/.superpowers/brainstorm/46184-1787838262/waiting-majority-threat-model.html"}
+{"type":"server-stopped","reason":"idle timeout"}

@@ -1,0 +1,26 @@
+INFO:     Will watch for changes in these directories: ['C:\\Users\\shush\\OneDrive\\Documents\\VISHWAS']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [26948] using WatchFiles
+INFO:     Started server process [5600]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:3488 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3489 - "GET /openapi.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:7319 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7319 - "GET /app/style.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:10430 - "GET /app/app.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:10430 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9150 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:13977 - "WebSocket /api/v1/missions/184fb66415f6/stream" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:9042 - "DELETE /api/v1/missions/184fb66415f6 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:9042 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:2357 - "WebSocket /api/v1/missions/e17b6cfdb67d/stream" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:13285 - "GET /api/v1/results HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13285 - "GET /api/v1/results/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6315 - "GET /api/v1/results/degradation HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5380 - "GET /api/v1/results/cusum HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4871 - "GET /api/v1/results/ablation HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'vishwas\consensus\voting.py'. Reloading...
+ 

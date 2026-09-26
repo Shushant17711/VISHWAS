@@ -1,0 +1,14 @@
+INFO:     Started server process [30688]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:5972 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5972 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5309 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5309 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5309 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5309 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:5181 - "WebSocket /api/v1/missions/6e40803ed2a0/stream" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:8697 - "GET /app/index.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4828 - "GET /app/app.js HTTP/1.1" 200 OK

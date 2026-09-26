@@ -1,0 +1,2 @@
+ direct n=15  caught=5/6  wrong=1  [(2, 0), (1, 1), (2, 0)]
+ direct n=16  caught=4/6  wrong=0  [(1, 0), (2, 0), (1, 0)]

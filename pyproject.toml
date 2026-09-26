@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vishwas"
+version = "0.1.0"
+description = "VISHWAS - Verified Integrity & Swarm Health Weighted Assurance System"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "networkx>=3.2",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+perception = ["torch>=2.2", "torchvision>=0.17"]
+
+[project.scripts]
+vishwas = "vishwas.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["vishwas*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# The package is used from the working tree rather than installed, so the repo
+# root has to be importable for `pytest` with no arguments to work.
+pythonpath = ["."]
+markers = [
+    "slow: flies full missions; minutes, not milliseconds (deselect with -m 'not slow')",
+]

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VISHWAS — swarm integrity plot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/app/style.css" />
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mark">
+    <span class="mark__name">VISHWAS</span>
+    <span class="mark__expand">Verified Integrity &amp; Swarm Health Weighted Assurance System</span>
+  </div>
+
+  <nav class="views" role="tablist">
+    <button class="views__tab is-on" data-view="mission" role="tab">Plot</button>
+    <button class="views__tab" data-view="logs" role="tab">Logs</button>
+    <button class="views__tab" data-view="results" role="tab">Evidence</button>
+  </nav>
+
+  <div class="readout" id="readout">
+    <div class="readout__cell"><b id="r-tick">—</b><span>tick</span></div>
+    <div class="readout__cell"><b id="r-clock">—</b><span>t + s</span></div>
+    <div class="readout__cell"><b id="r-phase">—</b><span>phase</span></div>
+    <div class="readout__cell"><b id="r-cov">—</b><span>coverage</span></div>
+    <div class="readout__cell"><b id="r-conf">—</b><span>targets</span></div>
+    <div class="readout__cell"><b id="r-live">—</b><span>flying</span></div>
+    <!-- ClaimCheck. "refuted" is the count of accusations independent physics
+         showed to be false; "held" is drones the vote wanted expelled and the
+         audit would not certify. Both read 0 on a clean mission, which is the
+         point - they only move when somebody is lying. -->
+    <div class="readout__cell readout__cell--check"><b id="r-refuted">—</b><span>claims refuted</span></div>
+    <div class="readout__cell readout__cell--check"><b id="r-held">—</b><span>held, not expelled</span></div>
+    <span class="state state--idle" id="r-state">no mission</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════ mission view -->
+<main class="deck" id="view-mission">
+
+  <!-- ── column 1: the order book ── -->
+  <section class="panel panel--orders">
+    <h2 class="panel__title">Mission order</h2>
+
+    <form class="order" id="order">
+      <label class="field">
+        <span class="field__label">Attack scenario</span>
+        <select id="f-scenario" name="scenario"></select>
+      </label>
+      <p class="field__note" id="f-scenario-note">—</p>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Drones</span>
+          <input type="number" id="f-drones" name="n_drones" value="9" min="4" max="25" />
+        </label>
+        <label class="field">
+          <span class="field__label">Compromised</span>
+          <input type="number" id="f-bad" name="n_compromised" value="1" min="0" max="8" />
+        </label>
+      </div>
+      <p class="field__note" id="f-tolerance-note">—</p>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Ticks</span>
+          <input type="number" id="f-ticks" name="max_ticks" value="1200" min="50" max="5000" step="50" />
+        </label>
+        <label class="field">
+          <span class="field__label">Seed</span>
+          <input type="number" id="f-seed" name="seed" value="7" min="0" />
+        </label>
+      </div>
+
+      <label class="field field--toggles">
+        <span class="field__label">Trust layers</span>
+        <span class="toggles">
+          <label class="toggle"><input type="checkbox" id="f-consensus" checked /> consensus</label>
+          <label class="toggle"><input type="checkbox" id="f-priors" checked /> priors</label>
+        </span>
+      </label>
+      <p class="field__note">Turn both off to fly configuration A — the conventional swarm that has no vote to take.</p>
+
+      <!-- The single control the whole contribution rests on. Three modes, one
+           dial, so the difference can be flown live on the same seed rather
+           than asserted from a slide. -->
+      <label class="field">
+        <span class="field__label">Assurance mode</span>
+        <select id="f-mode" name="mode">
+          <option value="vote">Vote only — accusations are counted</option>
+          <option value="verified" selected>Verified — accusations are checked against physics</option>
+          <option value="anchored">Verified + hardware anchor — drone 0 is attested</option>
+        </select>
+      </label>
+      <p class="field__note" id="f-mode-note">—</p>
+
+      <button class="btn btn--go" type="submit" id="f-launch">Launch mission</button>
+      <p class="order__error" id="f-error" hidden></p>
+    </form>
+
+    <div class="transport" id="transport" hidden>
+      <div class="transport__row">
+        <button class="btn btn--sm" id="t-pause">Pause</button>
+        <button class="btn btn--sm" id="t-abort">Abort</button>
+      </div>
+      <label class="field">
+        <span class="field__label">Speed <b id="t-speed-v" class="num">4×</b></span>
+        <input type="range" id="t-speed" min="0.25" max="20" step="0.25" value="4" />
+      </label>
+      <p class="field__note" id="t-lag" hidden>Machine cannot keep up — running as fast as it can.</p>
+    </div>
+
+    <h2 class="panel__title">Reading the plot</h2>
+    <ul class="key">
+      <li><i class="key__dot key__dot--calm"></i>Trusted by its peers</li>
+      <li><i class="key__dot key__dot--warm"></i>Suspicion accumulating</li>
+      <li><i class="key__dot key__dot--hot"></i>Under accusation</li>
+      <li><i class="key__dot key__dot--out"></i>Expelled by quorum</li>
+      <li><i class="key__tether"></i>Ground truth: distance between where a drone <em>says</em> it is and where it is</li>
+    </ul>
+    <p class="key__caveat">The tether is drawn from the simulator's answer key so you can score the swarm live. No part of VISHWAS reads it.</p>
+  </section>
+
+  <!-- ── column 2: the plotting table ── -->
+  <section class="panel panel--plot">
+    <div class="plot__head">
+      <h2 class="panel__title">Search area</h2>
+      <p class="plot__scale" id="plot-scale">—</p>
+    </div>
+    <div class="plot__frame">
+      <svg id="plot" preserveAspectRatio="xMidYMid meet" aria-label="Live plan view of the swarm"></svg>
+      <div class="plot__empty" id="plot-empty">
+        <p class="plot__empty-lead">No mission on the table.</p>
+        <p>Pick a scenario and launch. One drone will start lying about where it is; watch whether the other eight work it out on their own.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── column 3: the tote and the log ── -->
+  <section class="panel panel--tote">
+    <div class="tote__head">
+      <h2 class="panel__title">Suspicion held against each drone</h2>
+      <p class="tote__sub">mean over live peers · <span id="tote-rule">accuse at —</span></p>
+    </div>
+    <div class="tote" id="tote"></div>
+
+    <div class="tote__head tote__head--split">
+      <h2 class="panel__title">Decisions</h2>
+      <button class="link-btn" type="button" data-view-link="logs">Full log &amp; explanations →</button>
+    </div>
+    <ol class="log" id="log">
+      <li class="log__idle">Nothing decided yet.</li>
+    </ol>
+  </section>
+</main>
+
+<!-- ══════════════════════════════════════════════════ logs view -->
+<main class="sheet" id="view-logs" hidden>
+  <div class="sheet__inner" id="logs-body">
+    <p class="sheet__idle">No mission open yet. Launch one from the Plot tab, or come back once one has run.</p>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════ results view -->
+<main class="sheet" id="view-results" hidden>
+  <div class="sheet__inner" id="results-body">
+    <p class="sheet__idle">Loading evaluation bundles…</p>
+  </div>
+</main>
+
+<script src="/app/app.js"></script>
+</body>
+</html>

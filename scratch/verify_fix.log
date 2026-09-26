@@ -1,0 +1,6 @@
+fuse=False n=9   caught=6/6 wrong=0  [(2, 0), (2, 0), (2, 0)]
+fuse=True  n=9   caught=6/6 wrong=0  [(2, 0), (2, 0), (2, 0)]
+fuse=False n=12  caught=0/6 wrong=0  [(0, 0), (0, 0), (0, 0)]
+fuse=True  n=12  caught=5/6 wrong=2  [(1, 1), (2, 0), (2, 1)]
+fuse=False n=16  caught=1/6 wrong=2  [(0, 1), (1, 0), (0, 1)]
+fuse=True  n=16  caught=4/6 wrong=0  [(1, 0), (2, 0), (1, 0)]

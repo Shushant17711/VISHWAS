@@ -1,0 +1,25 @@
+compromised (9,) excluded {4: 364}
+{'tick': 364, 'target': 4, 'W': 8.9058, 'accusers': [], 'quorum_required': 0, 'reason': 'fabrication_breadth'}
+--- drone 4 round_targets (non-empty rounds) ---
+284 targets= [9] breadth_after= 0.0
+288 targets= [9] breadth_after= 1.0
+292 targets= [9] breadth_after= 1.9
+296 targets= [9] breadth_after= 2.71
+300 targets= [9] breadth_after= 3.439
+304 targets= [9] breadth_after= 4.095
+308 targets= [9] breadth_after= 4.686
+312 targets= [9] breadth_after= 5.217
+316 targets= [9] breadth_after= 5.695
+320 targets= [9] breadth_after= 6.126
+324 targets= [9] breadth_after= 6.513
+328 targets= [9] breadth_after= 6.862
+332 targets= [9] breadth_after= 7.176
+336 targets= [9] breadth_after= 7.458
+340 targets= [9] breadth_after= 7.712
+344 targets= [9] breadth_after= 7.941
+348 targets= [9] breadth_after= 8.147
+352 targets= [9] breadth_after= 8.332
+356 targets= [9] breadth_after= 8.499
+360 targets= [9] breadth_after= 8.649
+364 targets= [9] breadth_after= 8.784
+--- drone 9 (real attacker) round_targets (non-empty rounds) ---

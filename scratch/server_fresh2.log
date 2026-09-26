@@ -1,0 +1,68 @@
+INFO:     Started server process [13596]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:7707 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:7715 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7716 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7717 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7718 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7720 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7721 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7722 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7723 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7724 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7725 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7726 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7727 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7728 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7730 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7731 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7732 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7733 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7734 - "GET /api/v1/missions/d2a017e652bc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7735 - "GET /api/v1/missions/d2a017e652bc/frames?after=0&limit=2000 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7743 - "DELETE /api/v1/missions/d2a017e652bc HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:7744 - "GET /app/index.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7745 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7746 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7754 - "GET /app/index.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14203 - "GET /app/index.html HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8301 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8301 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8301 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:6467 - "WebSocket /api/v1/missions/1f9a212212fc/stream" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:9096 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1616 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10024 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10024 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2571 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2571 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2571 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5690 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5690 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4401 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5690 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5690 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:10529 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10529 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14091 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14091 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14091 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14490 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14490 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4529 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4529 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4529 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4529 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:3608 - "WebSocket /api/v1/missions/c1fb9c91e22e/stream" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:12139 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12139 - "GET /app/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4016 - "GET /app/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4016 - "GET /api/v1/scenarios HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4016 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4016 - "POST /api/v1/missions HTTP/1.1" 201 Created
+INFO:     127.0.0.1:5800 - "WebSocket /api/v1/missions/befe54b5ec26/stream" [accepted]
+INFO:     connection open
