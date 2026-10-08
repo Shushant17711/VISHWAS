@@ -130,3 +130,7 @@ Bundles are written to `data/results/` (one JSON file per study, plus `index.jso
 Everything here is simulated in software. No hardware was built or flown. The ranging model, the
 adversary model, and what is deliberately not attacked are covered in sections 10 to 13 of
 [`docs/REPORT.md`](docs/REPORT.md).
+
+## License
+
+[MIT](LICENSE)
