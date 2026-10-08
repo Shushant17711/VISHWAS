@@ -35,7 +35,7 @@ Protocol, per accusation round:
    ``quorum_size`` of those claims survived independent re-derivation.  Every
    mechanism in steps 1-2 is a vote, and a vote follows whichever bloc is
    larger; past the Byzantine bound that means convicting the honest
-   minority, which was measured directly (``scratch/diag24_few_honest.py``).
+   minority, which was measured directly (``experiments/diag24_few_honest.py``).
    The count of *verified* claims is the one quantity a bloc cannot inflate
    by growing, because fabricated claims produce none of them.  When
    verification cannot settle the question, the target is held in a
@@ -66,7 +66,7 @@ consensus layer that cannot defend itself is not a security contribution:
   event (e.g. a sudden position teleport) can itself cause transient,
   simultaneous, swarm-wide suspicion as the formation reacts, and that
   heuristic could not tell the two apart - it cascaded into excluding
-  nearly the entire honest swarm in testing (see CONTINUE_FROM_HERE.md §10).
+  nearly the entire honest swarm in testing (see docs/ENGINEERING_LOG.md §10).
   The breadth integrator is deliberately slow (many-round decay, a long
   sustain window, and a hard exclude-at-most-one-per-cooldown circuit
   breaker) specifically so a transient event decays away instead of
@@ -205,8 +205,8 @@ class ConsensusEngine:
         (``mesh.max_observers``), not by ``n``. Left unbounded, the quorum
         requirement keeps climbing while the achievable accuser count does
         not, and recall on the collusion scenario collapses once the two
-        curves cross (empirically around n=12, see scratch/diag12.py and
-        CONTINUE_FROM_HERE.md §2(a)). Capping at ``max_observers`` never
+        curves cross (empirically around n=12, see experiments/diag12.py and
+        docs/ENGINEERING_LOG.md §2(a)). Capping at ``max_observers`` never
         drops the requirement below what an *unbounded* swarm would need for
         small n (the cap only binds once ``2f+1`` would already exceed the
         radio budget), so it does not weaken the Byzantine guarantee for the
@@ -226,7 +226,7 @@ class ConsensusEngine:
         mechanism can tell an honest minority from a compromised one once
         the compromised side *is* the majority - it structurally sides with
         whichever side is bigger.  Measured directly (n=9, collusion and
-        position_teleport scenarios, `scratch/diag24_few_honest.py`):
+        position_teleport scenarios, `experiments/diag24_few_honest.py`):
         recall and false-exclusion rate both stay clean through
         n_compromised=4 of 9 (a bare minority, 44%), then collapse
         instantly at n_compromised=5 of 9 (a bare majority, 56%) - 0/15

@@ -5,7 +5,7 @@ existed was *count* it, weighted.  Counting is a majority mechanism, and a
 majority mechanism sides with whichever bloc is larger by construction: once
 the compromised drones outnumber the honest ones they can vote the honest
 minority out of the swarm, and no amount of trimming, credibility weighting
-or quorum sizing changes that (measured, ``scratch/diag24_few_honest.py``).
+or quorum sizing changes that (measured, ``experiments/diag24_few_honest.py``).
 
 The verifier's job is to make an accusation something that can be *checked*
 rather than merely counted.  For every claim it asks three questions, all of

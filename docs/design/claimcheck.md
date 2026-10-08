@@ -1,7 +1,7 @@
 # VISHWAS ClaimCheck — independent, physics-backed accusation verification
 
 **Status:** implemented (`vishwas/verify/`), 2026-08-27
-**Problem owner:** majority-compromise false-expulsion failure, `CONTINUE_FROM_HERE.md` §"too few honest"
+**Problem owner:** majority-compromise false-expulsion failure, `docs/ENGINEERING_LOG.md` §"too few honest"
 
 ---
 
@@ -20,7 +20,7 @@ trimmed mean cannot survive >50% contamination, and a quorum cannot tell an
 honest majority from a compromised one once the compromised side **is** the
 majority.
 
-Measured directly (`scratch/diag24_few_honest.py`, n=9, `collusion`, seeds 7/11):
+Measured directly (`experiments/diag24_few_honest.py`, n=9, `collusion`, seeds 7/11):
 
 | compromised | attackers caught | honest wrongly expelled |
 |---|---|---|
@@ -154,7 +154,7 @@ fabricated claims produce none of them.
 ## 3a. The fabricator detector had to be gated too
 
 `_track_fabrication` (the byzantine-accuser self-detector from
-CONTINUE_FROM_HERE.md §10) was the last majority-derived mechanism left
+docs/ENGINEERING_LOG.md §10) was the last majority-derived mechanism left
 outside the gate, and past the bound it inverts exactly like the quorum does.
 Its input was "targets the rest of the swarm did not corroborate" — and once
 the compromised drones are the majority, the honest minority's *correct*

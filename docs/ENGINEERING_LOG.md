@@ -24,7 +24,7 @@ studies: sweeping swarm size `n` (not compromised-fraction) on a fixed 2-collude
 and finding that detection **recall collapses** somewhere around n=11→12, even though nothing
 else about the attack changed.
 
-## 2. THE BUG - fully diagnosed AND fixed-and-verified (in scratch/, not yet ported to source)
+## 2. THE BUG - fully diagnosed AND fixed-and-verified (in experiments/, not yet ported to source)
 
 ### Symptom
 Fixed scenario: `scenario="collusion", n_compromised=2`. Sweep `n_drones`. Recall (fraction
@@ -82,9 +82,9 @@ growing quorum between n=11 and n=12.
   a **no-op** at n=13. Both this fix and the threshold sweep are inert.
 - **Not credibility lock-in**: credibility is pinned at ×1.55 at n=13 (because `uphold()`
   only fires on a successful exclusion, which never happens - chicken-and-egg), but the
-  FLAT-credibility ablation (`scratch/diag11.py`, `diag8.py`) still fails at n=13. It's an
+  FLAT-credibility ablation (`experiments/diag11.py`, `diag8.py`) still fails at n=13. It's an
   amplifier, not the cause.
-- **Not solver geometry**: `_flatten` scale is exactly 1.000 (`scratch/diag5.py`,
+- **Not solver geometry**: `_flatten` scale is exactly 1.000 (`experiments/diag5.py`,
   `diag13.py`). The multilateration solver itself is healthy - this is a voting-mechanism
   and evidence-selection problem, not a numerics problem.
 
@@ -106,8 +106,8 @@ growing quorum between n=11 and n=12.
 
 ## 4. Status: diagnostic sweep is COMPLETE (n=9,11,12,13,14,15,16, both orig and direct mode)
 
-All diagnostic scripts in `scratch/`, still valid, not installed as pip package, must set
-`PYTHONPATH=.`. Run via `cd VISHWAS && PYTHONPATH=. python -u scratch/diagN.py` (Windows
+All diagnostic scripts in `experiments/`, still valid, not installed as pip package, must set
+`PYTHONPATH=.`. Run via `cd VISHWAS && PYTHONPATH=. python -u experiments/diagN.py` (Windows
 Git-Bash environment; `vishwas` is not pip-installed).
 
 - `diag1.py`-`diag2.py`: early swarm/API structure exploration.
@@ -127,7 +127,7 @@ Git-Bash environment; `vishwas` is not pip-installed).
   originally found the cliff.
 - `diag13.py`: GDOP / solver-geometry probe via `ransac_solve` monkeypatch. Confirmed GDOP
   improves with n, `_flatten` scale is exactly 1.000 (5.06→4.13, ratio vs isotropic ideal
-  1.52→1.40, `scratch/diag13.py`). The multilateration solver itself is healthy.
+  1.52→1.40, `experiments/diag13.py`). The multilateration solver itself is healthy.
 - `diag14.py`: real E2 field-measurement extraction (the traitor-vs-honest table in §2
   above) via monkeypatching `CrossObservationChecker.score()`.
 - `diag15.py`/`diag16.py`: **the fix-verification ablation** - monkeypatches
@@ -138,7 +138,7 @@ Git-Bash environment; `vishwas` is not pip-installed).
   script covering only the two missing cells (`direct n=15`, `direct n=16`) - it completed
   successfully in the background this session (task `beogxfobt`).
 
-### Full results (`scratch/ablation_directz.log`, all 14 cells now populated, 3 seeds × 900 ticks each)
+### Full results (`experiments/ablation_directz.log`, all 14 cells now populated, 3 seeds × 900 ticks each)
 
 | n | orig caught/6 | orig wrong | direct caught/6 | direct wrong |
 |---|---|---|---|---|
@@ -188,8 +188,8 @@ is yes, clearly, modulo the n=13 dip and the minor false-positive side effect.
    or n=13-specific by adding more seeds at just that n).
 
 ## 6. Files touched/created this investigation (nothing in production code yet)
-- `scratch/diag1.py` ... `scratch/diag16.py` - all diagnostic, none applied to `vishwas/`.
-- `scratch/ablation_directz.log` - live output of the diag15/diag16 direct-vs-orig sweep,
+- `experiments/diag1.py` ... `experiments/diag16.py` - all diagnostic, none applied to `vishwas/`.
+- `experiments/ablation_directz.log` - live output of the diag15/diag16 direct-vs-orig sweep,
   append-only, safe to `cat`/`tail` anytime. **Now complete, all 14 cells populated.**
 
 **No changes have been made to `vishwas/` production code yet.** The fix in §3/§5 is fully
@@ -199,7 +199,7 @@ is answered.
 
 ## 7. UPDATE — 2026-08-20 ~16:20 IST (this session)
 
-**Correction to §6 above: the fix WAS ported to source between this file being written (14:36) and this update.** `vishwas/evidence/e2_cross.py` (mtime 14:49) now has `report.z = max(fused_z, report.direct_z)` gated behind `EvidenceConfig.e2_fuse_direct_z: bool = True` (`vishwas/config.py` line ~114), and the stale in-code comment at ~169-188 has already been rewritten to explain the fix (matches §3 rationale). This session independently re-verified it end-to-end via `scratch/verify_fix.py`, which exercises the real `SimConfig`/`Swarm` path (not a monkeypatch) at n=9/12/16, seeds 7/11/13, 900 ticks:
+**Correction to §6 above: the fix WAS ported to source between this file being written (14:36) and this update.** `vishwas/evidence/e2_cross.py` (mtime 14:49) now has `report.z = max(fused_z, report.direct_z)` gated behind `EvidenceConfig.e2_fuse_direct_z: bool = True` (`vishwas/config.py` line ~114), and the stale in-code comment at ~169-188 has already been rewritten to explain the fix (matches §3 rationale). This session independently re-verified it end-to-end via `experiments/verify_fix.py`, which exercises the real `SimConfig`/`Swarm` path (not a monkeypatch) at n=9/12/16, seeds 7/11/13, 900 ticks:
 
 | n | fuse=False (unpatched) | fuse=True (patched, = current default) |
 |---|---|---|
@@ -207,12 +207,12 @@ is answered.
 | 12 | caught=0/6 wrong=0 | caught=5/6 wrong=2 |
 | 16 | caught=1/6 wrong=2 | caught=4/6 wrong=0 |
 
-Matches the scratch/diag15-16 ablation numbers exactly. **Part 1 of the fix is confirmed live in source and working correctly.**
+Matches the experiments/diag15-16 ablation numbers exactly. **Part 1 of the fix is confirmed live in source and working correctly.**
 
 **Still open / not done:**
 - Part 2 (`vishwas/consensus/voting.py`: bound `quorum_size` by reachable-witness count via `max_observers`/`target_confirm_observers`) — `voting.py` untouched since Aug 19, still `quorum_size = 2*f_tolerated + 1` uncapped. Optional, not required — part 1 alone already converts the hard collapse into a soft degradation.
 - The n=13 dip (2/6 caught vs neighbors' 5-6/6) — not re-investigated this session.
-- No test suite was run beyond `scratch/verify_fix.py`; if `vishwas/` has a `tests/` dir, worth a sanity pass before calling this closed.
+- No test suite was run beyond `experiments/verify_fix.py`; if `vishwas/` has a `tests/` dir, worth a sanity pass before calling this closed.
 
 Next session: if picking this back up, decide whether part 2 / the n=13 dip are worth chasing, or consider this investigation closed as-is.
 
@@ -247,7 +247,7 @@ quorum alone, which breaks the "minority of liars can't reach quorum" guarantee 
 `2f+1` design rests on. That's a security decision, not a bug fix, so it wasn't made unilaterally.
 
 **(b) The n=13 dip — root-caused: it is genuinely n=13-specific, not seed-13-specific.**
-Ran `scratch/diag17_n13_dip.py` (live source path, `SimConfig`/`Swarm`, collusion scenario,
+Ran `experiments/diag17_n13_dip.py` (live source path, `SimConfig`/`Swarm`, collusion scenario,
 n_compromised=2, 900 ticks):
 
 *Part A — n=13 fixed, 9 different seeds (7,11,13,1,17,23,29,31,37):*
@@ -281,7 +281,7 @@ open *question* ("is it the seed or the n?") is answered.
 **Files touched this update:**
 - `vishwas/consensus/voting.py` — quorum_size cap (Part 2), documented as currently inert for n≤18.
 - `vishwas/config.py` — removed dead duplicate `f_tolerated`/`quorum_size`.
-- `scratch/diag17_n13_dip.py` — new, live output in `scratch/diag17_n13_dip.log`.
+- `experiments/diag17_n13_dip.py` — new, live output in `experiments/diag17_n13_dip.log`.
 
 **Status: both items from §7's "still open" list are now closed.** Nothing further is
 required. If anyone wants to keep pulling on threads: (1) decide on a security-reviewed answer
@@ -292,7 +292,7 @@ for whether `quorum_size` should be bounded more tightly than `max_observers` fo
 
 **User-reported symptom** (real usage, `python -m uvicorn vishwas.api.app:app` + UI): "many times other
 drones wrongly accuse the other drones or sometimes unable to catch the culprit." Live diagnostic
-(`scratch/diag_live_check.py`, n=12 default swarm, 6 scenarios × seeds `7,11,13,17,23`) confirmed this
+(`experiments/diag_live_check.py`, n=12 default swarm, 6 scenarios × seeds `7,11,13,17,23`) confirmed this
 against the actual running consensus/voting code (not a monkeypatch):
 
 | Scenario | Compromised | Caught (before) | Wrong (before) |
@@ -337,7 +337,7 @@ extended to document the trimming step and call out that it directly counters `b
 `collusion`-style attacks.
 
 **Verification** — re-ran the exact same live harness used to diagnose the bug
-(`scratch/diag18_trim_fix.py`, same 6 scenarios × seeds `7,11,13,17,23`, n=12, against the now-patched
+(`experiments/diag18_trim_fix.py`, same 6 scenarios × seeds `7,11,13,17,23`, n=12, against the now-patched
 `vishwas/consensus/voting.py`, not a monkeypatch):
 
 | Scenario | Compromised | Caught (after) | Wrong (after) | Δ caught | Δ wrong |
@@ -363,9 +363,9 @@ somewhat, tightening it further is a candidate follow-up, not required now).
 **Files touched/created this investigation:**
 - `vishwas/consensus/voting.py` — **production fix**: trimmed weighted mean in `ConsensusEngine.round()`
   + updated docstring/comments. This is the only production code change.
-- `scratch/diag18_trim_fix.py` / `scratch/diag18_trim_fix.log` — live verification harness + full output
+- `experiments/diag18_trim_fix.py` / `experiments/diag18_trim_fix.log` — live verification harness + full output
   (append-only, safe to `cat`/`tail` anytime), reproduces the exact same scenario/seed matrix as
-  `scratch/diag_live_check.py` against the patched code.
+  `experiments/diag_live_check.py` against the patched code.
 - `.claude/plans/deep-forging-dragonfly.md` — the approved implementation plan for this fix (context,
   root cause, and verification plan).
 
@@ -390,7 +390,7 @@ fabricates accusations never gets accused back, so it structurally can never be 
 
 1. **Round-count-based self-exclusion** (`_dissent_total`, incremented once per uncorroborated-target
    per round, exclude past `dissent_exclude_ticks=24`): caused a **new** false exclusion of an innocent
-   drone in `position_teleport` seed=17 (`scratch/diag19_byzantine_fix.py`) that wasn't there in the §9
+   drone in `position_teleport` seed=17 (`experiments/diag19_byzantine_fix.py`) that wasn't there in the §9
    baseline - an honest drone correctly, narrowly suspecting the one real attacker for a while before
    the rest of the swarm corroborated it accumulated "dissent" exactly like a liar would, since the
    check couldn't tell persistence-on-one-target apart from persistence-on-many.
@@ -406,8 +406,8 @@ fabricates accusations never gets accused back, so it structurally can never be 
    attack - strictly worse than the original bug (0/5 caught but stable) and was **not shipped**.
 
 **Both designs were fully reverted.** `vishwas/consensus/voting.py` and `vishwas/config.py` are back to
-exactly the §9 state (trimmed-mean fix only) - confirmed via `scratch/diag19_revert_confirm.log`
-matching `scratch/diag18_trim_fix.log` line-for-line. The module docstring's "Byzantine accuser" bullet
+exactly the §9 state (trimmed-mean fix only) - confirmed via `experiments/diag19_revert_confirm.log`
+matching `experiments/diag18_trim_fix.log` line-for-line. The module docstring's "Byzantine accuser" bullet
 was updated to honestly state this is open follow-up work and briefly note why the obvious approaches
 failed, so the next person doesn't retread the same two designs.
 
@@ -420,14 +420,14 @@ session budgeted for. Recommend treating this as intentionally out of scope rath
 same two failed approaches.
 
 **"Other score as well" (sub-5/5 catch rates on position_teleport/slow_drift/formation_sabotage/
-false_target) was not yet investigated this session** - `scratch/diag19_full_length.py` was written
+false_target) was not yet investigated this session** - `experiments/diag19_full_length.py` was written
 (same harness at the real `max_ticks=3000` production default instead of the 900 used for fast
 iteration everywhere else this session) but not yet run. That's the next thing to check before
 concluding those numbers reflect a real gap rather than a diagnostic-speed artifact.
 
 ## 11. UPDATE - 2026-08-21 (this session): "other score" is NOT a truncation artifact - false exclusions are early and permanent
 
-Ran `scratch/diag19_full_length.py` (`max_ticks=3000`, the real `SimConfig` default, vs. 900 used
+Ran `experiments/diag19_full_length.py` (`max_ticks=3000`, the real `SimConfig` default, vs. 900 used
 everywhere else this session) for `position_teleport`. First three seeds (7, 11, 13) produced
 **identical** `caught`/`wrong` results to the 900-tick run, byte-for-byte. Direct inspection of seed=7
 explains why: the false exclusion of drone 11 fires at **tick 36** - `{'tick': 36, 'target': 11, 'W':
@@ -450,7 +450,7 @@ cause than what was assumed when this was first flagged.
 **Not yet done**: confirming the `tau_static`-per-drone hypothesis directly (log each drone's prior
 alongside the tick-36 exclusion to see if drone 11 really did draw the lowest prior for seed 7), and
 finishing the remaining seeds/scenarios of `diag19_full_length.py` (was still running in the
-background when this was written - check `scratch/diag19_full_length.log` for final numbers). This is
+background when this was written - check `experiments/diag19_full_length.log` for final numbers). This is
 flagged as real, open follow-up work, not resolved this session.
 
 **`diag19_full_length.py` finished** (all 6 scenarios, `max_ticks=3000`): mostly confirms §11's
@@ -466,7 +466,7 @@ the cold-start-prior hypothesis above rather than replacing it.
 ## 12. UPDATE - 2026-08-21 (this session): UI overhaul - Evidence page redesign + a real layout bug fixed
 
 User reported the Evidence page was "very ill figured" and the whole UI theme "very bad". Used
-Chrome/Selenium headless screenshots (`scratch/shot_evidence*.py`, `scratch/shots/*.png`) to actually
+Chrome/Selenium headless screenshots (`experiments/shot_evidence*.py`, `experiments/shots/*.png`) to actually
 see the rendered app rather than reason from source alone - this surfaced one genuine, previously
 unnoticed bug plus real (not just taste-based) data-presentation problems.
 
@@ -509,8 +509,8 @@ correctly show/hide, zero console errors.
   flagged as an easy, contained follow-up if wanted.
 
 **Verified working** via Selenium end-to-end: static Evidence page (full-page CDP screenshot,
-`scratch/shots/evidence3_full.png`), the Plot view both idle and with a real mission launched and
-running (`scratch/shots/running.png`, drones plotted, suspicion bars live, transport controls correct),
+`experiments/shots/evidence3_full.png`), the Plot view both idle and with a real mission launched and
+running (`experiments/shots/running.png`, drones plotted, suspicion bars live, transport controls correct),
 zero JS console errors in either state.
 
 **Not done / explicitly out of scope this session**: no changes were made to the underlying dark
@@ -539,8 +539,8 @@ attacker. This is why the swarm was excluding an honest drone (drone 11 in every
 every run, sometimes *instead of* the real attacker, sometimes *alongside* it. Fix: raised
 `cusum_slack_k` to 1.6 (empirically the highest value where the leaky-integrator steady state under pure
 noise, `E[max(0,z-k)]/(1-decay) ≈ 1.5`, stays comfortably under h=6.5 - confirmed via
-`scratch/diag20_k_test5.py`). Full before/after sweep (5 seeds × 900 ticks, `scratch/diag20_k1.6_full.log`
-vs `scratch/diag20_k0.55_full.log`), CUSUM-only (no fabrication tracker), 5 attack scenarios:
+`experiments/diag20_k_test5.py`). Full before/after sweep (5 seeds × 900 ticks, `experiments/diag20_k1.6_full.log`
+vs `experiments/diag20_k0.55_full.log`), CUSUM-only (no fabrication tracker), 5 attack scenarios:
 
 | K | position_teleport | slow_drift | false_target | formation_sabotage | collusion |
 |---|---|---|---|---|---|
@@ -564,7 +564,7 @@ uncorroborated targets that specific accuser named*, decaying at 0.9/round, gate
 drone that narrowly, persistently accuses targets nobody else corroborates over many rounds - which a
 genuine attacker naturally does but a swarm reacting to one real attack does not. Verified against the
 real `Swarm`/`ConsensusEngine` (not a monkeypatch), production code, 5 seeds × 900 ticks
-(`scratch/diag21_final_fix.log`):
+(`experiments/diag21_final_fix.log`):
 
 | scenario | caught | wrong |
 |---|---|---|
@@ -595,8 +595,8 @@ plausibly phantom-detections rather than named peers, which is a bigger scope ch
 **Files touched this session (beyond §1-§12)**: `vishwas/config.py` (`cusum_slack_k` 0.55→1.6, matches
 §9's already-shipped `cusum_threshold_h=6.5`; no other consensus code changed here, `_track_fabrication`
 and `_penalise_dissent` were already shipped in §9-§10). Diagnostic scripts (not applied to source):
-`scratch/diag20_k_test5.py`, `scratch/diag20_k1.6_full.log`, `scratch/diag20_k0.55_full.log`,
-`scratch/diag21_final_fix.log`, `scratch/diag18_trim_fix.py` (reused harness).
+`experiments/diag20_k_test5.py`, `experiments/diag20_k1.6_full.log`, `experiments/diag20_k0.55_full.log`,
+`experiments/diag21_final_fix.log`, `experiments/diag18_trim_fix.py` (reused harness).
 
 **Status: user's exact complaint is measured, fixed, and quantified.** Wrong-drone accusations are
 gone (0/35 wrong at k=1.6 across 5 non-byzantine scenarios); byzantine_accuser is now caught 5/5 with 0
@@ -607,7 +607,7 @@ false-positive is the only open item.
 
 Picked the §13 open item back up per the user's request to "do what you wrote in continue from here."
 
-**Root cause, found via `scratch/diag22_false_target_probe.py`** (instrumented
+**Root cause, found via `experiments/diag22_false_target_probe.py`** (instrumented
 `ConsensusEngine._track_fabrication` to log the exact per-round `round_targets` and `_fab_breadth`
 history for every accuser): drone 4 was not spraying broad, fabricated suspicion at all - from tick 284
 onward it named exactly **one** target (drone 9, the real `false_target` attacker) on **every single
@@ -635,8 +635,8 @@ so the next person doesn't have to re-derive it.
 `max_ticks=900`, production code, no monkeypatch): now correctly excludes **drone 9** (the real
 attacker) at tick 428 via the normal `trust_weighted_quorum` path (7 accusers, `[0,1,2,3,4,6,8]`) once
 enough of the swarm corroborates drone 4's original, correct suspicion - `excluded={9: 428}`, zero wrong
-exclusions. Then re-ran the full `scratch/diag18_trim_fix.py` matrix (6 scenarios × 5 seeds × 900 ticks,
-`scratch/diag23_threshold_fix_final.log`), real `Swarm`/`ConsensusEngine`, production defaults:
+exclusions. Then re-ran the full `experiments/diag18_trim_fix.py` matrix (6 scenarios × 5 seeds × 900 ticks,
+`experiments/diag23_threshold_fix_final.log`), real `Swarm`/`ConsensusEngine`, production defaults:
 
 | scenario | caught | wrong |
 |---|---|---|
@@ -652,8 +652,8 @@ byzantine_accuser detection is unaffected by the threshold change (still 5/5, 0 
 state is an order of magnitude above the new threshold, same as before).
 
 **Files touched**: `vishwas/config.py` (`fabrication_breadth_threshold` 5.0→15.0 + expanded comment
-deriving why). `scratch/diag22_false_target_probe.py` (new diagnostic, reusable if this mechanism needs
-tracing again), `scratch/diag22_out.log`, `scratch/diag23_threshold_fix_final.log`.
+deriving why). `experiments/diag22_false_target_probe.py` (new diagnostic, reusable if this mechanism needs
+tracing again), `experiments/diag22_out.log`, `experiments/diag23_threshold_fix_final.log`.
 
 **Status: DONE. No known open items from §13 remain.** If a future session finds another
 fabrication-breadth false positive, the diagnostic pattern here (instrument `_track_fabrication` to log
@@ -684,7 +684,7 @@ summary` used a 3-column CSS grid (`68px 1fr 18px` - timestamp / content / discl
 handed it 3 *separate* flat children instead of grouping the header+sub-line into one element for the
 middle column - the sub-line was landing in the 18px caret column. Fixed by wrapping head+sub in one
 `<span>` and adding the caret element that column was actually meant for. Verified visually via a
-Selenium screenshot (`scratch/shots/logs_layout_check.png` / `logs_expanded.png`) - not just DOM
+Selenium screenshot (`experiments/shots/logs_layout_check.png` / `logs_expanded.png`) - not just DOM
 presence, the actual rendered layout.
 
 **Also fixed as a side effect of debugging "clicking Logs did nothing"** (a separate report that turned
@@ -702,7 +702,7 @@ clean headless session with console logging enabled before assuming the code is 
 ## 16. UPDATE - 2026-08-21 (later still): "too few honest drones" - a real, now-bounded failure mode
 
 **User's report**: "when there are very few non-liars then either they are wrongly accused as liars or
-they can't catch liars at all." Root-caused via a new sweep (`scratch/diag24_few_honest.py`, n=9,
+they can't catch liars at all." Root-caused via a new sweep (`experiments/diag24_few_honest.py`, n=9,
 `collusion` and `position_teleport` scenarios, n_compromised swept 1..6, 3 seeds each):
 
 | n_compromised (of 9) | honest | caught | wrong |
@@ -733,7 +733,7 @@ same way you cannot out-vote a majority.
    does *not* restore correctness in the majority-compromised regime (it can't - 0 liars caught either
    way, that part is mathematically unavoidable) but *does* bound the damage: wrong exclusions capped at
    `_majority_cap` (3-4 per seed at n=9) instead of climbing toward the full live-minus-liveness-guard
-   count. Re-ran the full 35-trial validation matrix (`scratch/diag18_trim_fix.py`) after adding this -
+   count. Re-ran the full 35-trial validation matrix (`experiments/diag18_trim_fix.py`) after adding this -
    **35/35 caught, 0/35 wrong, byte-identical to before** (the cap never engages below the majority
    threshold, so every scenario this project actually tests is untouched).
 2. **UI guardrail** (`ui/index.html`/`app.js`): a live note under the Drones/Compromised fields, updated
@@ -744,7 +744,7 @@ same way you cannot out-vote a majority.
 
 **Files touched**: `vishwas/consensus/voting.py` (`_majority_cap` property + two call sites),
 `ui/index.html` (`#f-tolerance-note`), `ui/app.js` (`noteTolerance()`), `ui/style.css`
-(`.field__note--warn`). `scratch/diag24_few_honest.py` (new diagnostic, reusable for future
+(`.field__note--warn`). `experiments/diag24_few_honest.py` (new diagnostic, reusable for future
 BFT-boundary questions).
 
 **Aside, hit while diagnosing this**: this environment's Bash tool silently duplicates some backgrounded
@@ -849,7 +849,7 @@ exclusions dropped 11 → 3 → 2 as anchors went 0 → 1 → 2. That's the hone
 the failure mode less harmful, the same category of improvement as §16's `_majority_cap`, not a
 reversal of the impossibility result.
 
-**Verification**: re-ran the full `scratch/diag18_trim_fix.py` matrix (6 scenarios × 5 seeds × 900 ticks)
+**Verification**: re-ran the full `experiments/diag18_trim_fix.py` matrix (6 scenarios × 5 seeds × 900 ticks)
 with anchors left at their default (`()`, i.e. feature untouched) - **35/35 caught, 0/35 wrong**,
 byte-identical to §16. Zero regression from adding an opt-in mechanism nobody has to use.
 
@@ -880,7 +880,7 @@ back up.
 Picks up the exact thread §17 left open: *"suspicion reports aren't cross-checked against the
 evidence that supposedly produced them - the most promising next thread if this is picked back
 up."* Built as `vishwas/verify/`, wired into the consensus decision path.
-Design: `docs/superpowers/specs/2026-08-27-claimcheck-design.md`.
+Design: `docs/design/claimcheck.md`.
 
 ### 18.0 Headline result
 

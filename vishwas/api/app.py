@@ -104,7 +104,7 @@ def create_app() -> FastAPI:
     # (no build step, no cache-busted filenames) so that editing them and
     # reloading the browser is the entire dev loop. Browsers cache static
     # assets aggressively by default, which - combined with `--reload` not
-    # reliably picking up source edits either (see CONTINUE_FROM_HERE.md) -
+    # reliably picking up source edits either (see docs/ENGINEERING_LOG.md) -
     # has twice now made a fixed bug look unfixed because the *served* copy
     # was stale, not the code. Disabling caching on `/app/*` trades a few
     # extra bytes per request for "what's on screen is what's on disk".

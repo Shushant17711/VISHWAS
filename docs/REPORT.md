@@ -730,7 +730,7 @@ claims as inconclusive and expelled nobody.
 > something the attacker does not control. That is the project's thesis reappearing at a
 > smaller scale, and it is why we trust the numbers.
 
-Full engineering log with every measurement: `CONTINUE_FROM_HERE.md` §18.
+Full engineering log with every measurement: `docs/ENGINEERING_LOG.md` §18.
 
 ## 15. Related work, and what is actually new here
 
@@ -875,8 +875,8 @@ mechanism, not the weather.
   `data/results/{claimcheck,scenarios,ablation,degradation,cusum}.json`, 0 failed runs.
 - Reproduce: `.venv/bin/python scripts/run_evaluation.py --only claimcheck`
 - Tests: `.venv/bin/python -m pytest tests/ -q` (add `-m "not slow"` for the fast suite)
-- Design detail: `docs/superpowers/specs/2026-08-27-claimcheck-design.md`
+- Design detail: `docs/design/claimcheck.md`
 - Engineering log, including three approaches tried and rejected with the measurements
-  that killed each: `CONTINUE_FROM_HERE.md` §18
+  that killed each: `docs/ENGINEERING_LOG.md` §18
 - `data/results/*.json` regenerated 2026-08-28 against the final build; every number in this
   report comes from that run.

@@ -68,7 +68,7 @@ class MeshConfig:
     # the trimmed mean, the 2f+1 quorum, the credibility-weighted average -
     # and no majority-vote mechanism can tell a compromised majority from an
     # honest one once the compromised side *is* the majority (measured
-    # directly: scratch/diag24_few_honest.py, recall collapses to 0% and
+    # directly: experiments/diag24_few_honest.py, recall collapses to 0% and
     # false-exclusions spike the instant compromised crosses n/2). A
     # majority-compromised swarm cannot vote its way to the truth - it needs
     # a reference outside the vote. One certified anchor is that reference:
@@ -144,7 +144,7 @@ class EvidenceConfig:
     # recall collapse in larger swarms (n gtrsim 12) where the fused
     # multilateration statistic decays under collusion faster than the
     # quorum shrinks; costs a small increase in false accusations. See
-    # scratch/diag12.py..diag16.py and scratch/ablation_directz.log for the
+    # experiments/diag12.py..diag16.py and experiments/ablation_directz.log for the
     # measurements behind this default. Set False to reproduce pre-fix
     # behaviour (e.g. to regenerate the original data/results/*.json studies).
     e2_fuse_direct_z: bool = True
@@ -166,12 +166,12 @@ class EvidenceConfig:
     # drifted upward on pure measurement noise and reliably false-alarmed
     # within the first few dozen ticks (confirmed empirically: with
     # scenario="none" and zero attackers, fused-z has population mean~0.67,
-    # median~0.58 across 12-drone swarms; see scratch/diag20_k_test.py).
+    # median~0.58 across 12-drone swarms; see experiments/diag20_k_test.py).
     # k=1.6 keeps the leaky-integrator steady state under pure noise
     # (``E[max(0, z-k)] / (1-decay)``) at roughly 1.5, well under
     # cusum_threshold_h below, while every tested attack scenario's
     # sustained fused-z stays far enough above it to alarm quickly - see
-    # scratch/diag20_k1.6_full.log for the before/after sweep.
+    # experiments/diag20_k1.6_full.log for the before/after sweep.
     cusum_slack_k: float = 1.6            # in sigma; ignore drift below this
     cusum_threshold_h: float = 6.5        # alarm level
     cusum_decay: float = 0.995            # slow forgetting of stale evidence
@@ -233,7 +233,7 @@ class ConsensusConfig:
     # back down - but corroboration is not guaranteed to arrive at all
     # (e.g. the attacker may evade every other channel for the rest of the
     # mission, as happens in a rare ``false_target`` seed - see
-    # CONTINUE_FROM_HERE.md §13), so the threshold must not rely on that
+    # docs/ENGINEERING_LOG.md §13), so the threshold must not rely on that
     # happening.  For a *constant* feed of exactly one uncorroborated
     # target every round forever, the integrator's steady state is the
     # closed form ``feed / (1 - decay)`` and it strictly never exceeds that
@@ -247,11 +247,11 @@ class ConsensusConfig:
     # an order of magnitude higher (~100 at n=12) and clears the threshold
     # within a handful of rounds - the two cases stay cleanly separated at
     # any mission length.  (Empirically confirmed via
-    # ``scratch/diag22_false_target_probe.py``, which traced the exact
+    # ``experiments/diag22_false_target_probe.py``, which traced the exact
     # per-round ``round_targets`` history that produced the false exclusion
-    # this threshold fixes - see CONTINUE_FROM_HERE.md §13.  The
+    # this threshold fixes - see docs/ENGINEERING_LOG.md §13.  The
     # breadth/persistence distinction itself is the part the two earlier,
-    # abandoned designs each got half of - see CONTINUE_FROM_HERE.md §10.)
+    # abandoned designs each got half of - see docs/ENGINEERING_LOG.md §10.)
     #
     # Safety: the liveness guard from the normal exclusion path applies
     # unchanged, and ``fabrication_cooldown_rounds`` is a hard circuit
@@ -278,7 +278,7 @@ class ClaimCheckConfig:
     weighted mean, a ``2f+1`` quorum, a credibility average.  Every one of
     them structurally sides with whichever bloc is larger, so once the
     compromised side *is* the majority the swarm convicts the honest minority
-    (measured: ``scratch/diag24_few_honest.py``; see
+    (measured: ``experiments/diag24_few_honest.py``; see
     ``ConsensusConfig._majority_cap`` for the analysis).  ClaimCheck is the
     part of the decision that is deliberately *not* a vote.
 
@@ -340,7 +340,7 @@ class ClaimCheckConfig:
     # version of this threshold (``outliers > f_tolerated``) destroyed recall.
     #
     # Two limits on how much weight this can carry, both measured rather than
-    # assumed, and both spelled out in CONTINUE_FROM_HERE.md §18.3.  Every
+    # assumed, and both spelled out in docs/ENGINEERING_LOG.md §18.3.  Every
     # optimal-forgery liar re-derives its ranges from the same published
     # claims, so all liars agree with each other whatever direction each is
     # lying in - the graph is always two cliques and the larger always wins,
@@ -367,7 +367,7 @@ class ClaimCheckConfig:
     # Two is the smallest number that still means something: the anchor
     # cannot lie, and one independent corroborator is what distinguishes a
     # real anomaly from an anchor that is simply malfunctioning.  Measured
-    # margin at n=9 (see CONTINUE_FROM_HERE.md §18): honest targets peaked at
+    # margin at n=9 (see docs/ENGINEERING_LOG.md §18): honest targets peaked at
     # a single supporting claim and *never* with the anchor among them, while
     # genuine attackers reached three or four with the anchor present.  The
     # separation is in who signs, not how many - which is why this number can

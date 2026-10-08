@@ -137,7 +137,7 @@ function noteScenario() {
    mechanism can tell a compromised minority from an honest one once the
    compromised side stops being a minority.  This mirrors the engine's own
    ``ConsensusEngine._majority_cap``: measured directly (see
-   scratch/diag24_few_honest.py), recall and false-exclusion rate both stay
+   experiments/diag24_few_honest.py), recall and false-exclusion rate both stay
    clean right up to a bare compromised *minority*, then collapse the
    instant it becomes a bare majority - 0 liars caught, the honest drones
    wrongly convicted instead. Surfacing the same bound here, before launch,
@@ -151,7 +151,7 @@ function modeOf() {
 /* What each assurance mode actually changes, stated in terms of the decision
    rather than the mechanism - somebody watching a demo wants to know what the
    swarm will *do*, not which module is switched on. Numbers here are measured
-   over the 216-mission sweep in CONTINUE_FROM_HERE.md §18, not illustrative. */
+   over the 216-mission sweep in docs/ENGINEERING_LOG.md §18, not illustrative. */
 const MODE_NOTES = {
   vote: "Accusations are counted, not checked. This is the pre-ClaimCheck behaviour every " +
     "study in data/results/ was generated under. Once the compromised drones are the majority " +
@@ -185,7 +185,7 @@ function noteTolerance() {
     ? " The certified anchor does not raise this bound - it is not a vote - but it is a reference from " +
       "outside the vote, which is what lets verified evidence exist again past the bound: measured, " +
       "fabricator detection goes from 0/9 caught to 7/9 at 3 of 9 compromised, still with nobody honest " +
-      "convicted (CONTINUE_FROM_HERE.md §18)."
+      "convicted (docs/ENGINEERING_LOG.md §18)."
     : "";
   if (bad > majority) {
     note.textContent =

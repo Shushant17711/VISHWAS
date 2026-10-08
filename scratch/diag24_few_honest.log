@@ -1,5 +1,0 @@
-n= 9 f_tol=2 scen=collusion          n_comp=1 honest= 8 caught=3/3 wrong=0  [OK]
-n= 9 f_tol=2 scen=collusion          n_comp=2 honest= 7 caught=6/6 wrong=0  [OK]
-n= 9 f_tol=2 scen=collusion          n_comp=3 honest= 6 caught=9/9 wrong=0  [OK]
-n= 9 f_tol=2 scen=collusion          n_comp=4 honest= 5 caught=9/12 wrong=0  [OK]
-n= 9 f_tol=2 scen=collusion          n_comp=5 honest= 4 caught=0/15 wrong=11  [WRONG-ACCUSATIONS]

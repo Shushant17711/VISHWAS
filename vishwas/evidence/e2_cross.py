@@ -193,9 +193,9 @@ class CrossObservationChecker:
         # the strongest, most n-robust signal E2 has, and recall on the
         # colluding-pair scenario collapses hard once the swarm is large
         # enough for that erosion to outrun the fused statistic (empirically
-        # around n=12, see scratch/diag12.py..diag16.py). Fusing the two
+        # around n=12, see experiments/diag12.py..diag16.py). Fusing the two
         # signals restores recall across n=9..16 at the cost of a modest
-        # increase in false accusations (see scratch/ablation_directz.log);
+        # increase in false accusations (see experiments/ablation_directz.log);
         # net it is a clear improvement, so it is the default.
         fused_z = float(offset / sigma)
         if self.cfg.e2_fuse_direct_z:

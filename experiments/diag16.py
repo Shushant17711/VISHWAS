@@ -19,7 +19,7 @@ def make(mode):
 
 # Narrowed: only the two remaining cells from diag15's sweep that didn't
 # finish before the process died (direct n=15, n=16) -- these are the
-# go/no-go signal per CONTINUE_FROM_HERE.md section 4/5.
+# go/no-go signal per docs/ENGINEERING_LOG.md section 4/5.
 e2.CrossObservationChecker.score = make("direct")
 for n in (15, 16):
     row = []

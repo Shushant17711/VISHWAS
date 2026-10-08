@@ -1,6 +1,6 @@
 """Run the VISHWAS evaluation suite and write the result bundles.
 
-    python scripts/run_evaluation.py --quick        # ~2 min, smoke depth
+    python scripts/run_evaluation.py --quick        # smoke depth (~10-15 min on 8 cores)
     python scripts/run_evaluation.py                # default depth
     python scripts/run_evaluation.py --full         # paper depth
     python scripts/run_evaluation.py --only scenarios ablation
